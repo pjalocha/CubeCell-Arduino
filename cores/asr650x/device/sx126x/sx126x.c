@@ -706,6 +706,7 @@ void SX126xGetPacketStatus( PacketStatus_t *pktStatus )
     switch( pktStatus->packetType )
     {
         case PACKET_TYPE_GFSK:
+            // pktStatus->Params.LoRa.SignalRssiPkt = 0;
             pktStatus->Params.Gfsk.RxStatus = status[0];
             pktStatus->Params.Gfsk.RssiSync = -status[1] >> 1;
             pktStatus->Params.Gfsk.RssiAvg = -status[2] >> 1;

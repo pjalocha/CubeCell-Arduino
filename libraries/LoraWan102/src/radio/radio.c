@@ -841,7 +841,7 @@ double RadioSymbTime(uint8_t bw, uint8_t sf)
         case LORA_BW_500: bw_khz = 500; break;
         default: break;
     }
-    
+
     return (1<<sf)/bw_khz;
 }
 
@@ -983,7 +983,7 @@ void RadioStartCad( uint8_t symbols )
     uint8_t cadDetPeak = SX126x.ModulationParams.Params.LoRa.SpreadingFactor + 18;
     uint8_t cadDetMin = 10;
     RadioLoRaCadSymbols_t cadSymbolNum = LORA_CAD_16_SYMBOL;
-    
+
     if(symbols>=16)
         cadSymbolNum = LORA_CAD_16_SYMBOL;
     else if(symbols>=8)
@@ -994,15 +994,15 @@ void RadioStartCad( uint8_t symbols )
         cadSymbolNum = LORA_CAD_02_SYMBOL;
     else
         cadSymbolNum = LORA_CAD_01_SYMBOL;
-    
+
     SX126xSetDioIrqParams( IRQ_CAD_DONE | IRQ_CAD_ACTIVITY_DETECTED,
                            IRQ_CAD_DONE | IRQ_CAD_ACTIVITY_DETECTED,
                            IRQ_RADIO_NONE,
                            IRQ_RADIO_NONE );
     SX126xSetCadParams( cadSymbolNum, cadDetPeak, cadDetMin, LORA_CAD_ONLY, 0 );
-    
+
     SX126xSetCad( );
-    
+
     TimerSetValue( &CadTimeoutTimer, 2000 );
     TimerStart( &CadTimeoutTimer );
 }
@@ -1171,7 +1171,10 @@ void RadioIrqProcess( void )
             SX126xGetPacketStatus( &RadioPktStatus );
             if( ( RadioEvents != NULL ) && ( RadioEvents->RxDone != NULL ) && ( irqRegs & IRQ_CRC_ERROR ) != IRQ_CRC_ERROR)
             {
+              if(RadioPktStatus.packetType==PACKET_TYPE_LORA)
                 RadioEvents->RxDone( RadioRxPayload, size, RadioPktStatus.Params.LoRa.RssiPkt, RadioPktStatus.Params.LoRa.SnrPkt );
+              else
+                RadioEvents->RxDone( RadioRxPayload, size, RadioPktStatus.Params.Gfsk.RssiAvg, 0 );
             }
         }
 
