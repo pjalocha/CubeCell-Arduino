@@ -99,8 +99,8 @@ void LoRaClass::init()
 	LoraEvents.RxError = OnLoraRxError;
 	Radio.Init( &LoraEvents );
 	Radio.SetChannel( Lora_FREQ );
-	Radio.SetTxConfig( MODEM_LORA, (int8_t)Lora_TXPW, 0, Lora_BW,Lora_SF, Lora_coderate,lora_preamblelth, false,lora_crc, 0, 0, lora_iqInvert, 5000 );
-	Radio.SetRxConfig( MODEM_LORA, Lora_BW, Lora_SF,Lora_coderate, 0, lora_preamblelth,0, false,0, lora_crc, 0, 0, lora_iqInvert, true );
+	Radio.SetTxConfig( MODEM_LORA, (int8_t)Lora_TXPW, 0, Lora_BW,Lora_SF, Lora_coderate,lora_preamblelth, false,lora_crc, 0, 0, lora_iqInvert, 5000, 0, 0 );
+	Radio.SetRxConfig( MODEM_LORA, Lora_BW, Lora_SF,Lora_coderate, 0, lora_preamblelth,0, false,0, lora_crc, 0, 0, lora_iqInvert, true, 0, 0 );
 	Radio.Sleep();
 }
 

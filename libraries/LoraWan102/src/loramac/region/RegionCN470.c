@@ -527,9 +527,9 @@ bool RegionCN470RxConfig( RxConfigParams_t* rxConfig, int8_t* datarate )
 		double symboltime = ( ( double )( 1 << phyDr ) / ( double )(125000*pow(2,phyDr))) * 1000 + 1;
 		preamble = wota_cycle_time / symboltime;
 	}
-	Radio.SetRxConfig( MODEM_LORA, rxConfig->Bandwidth, phyDr, 1, 0, preamble, rxConfig->WindowTimeout, false, 0, false, 0, 0, true, rxConfig->RxContinuous );
+	Radio.SetRxConfig( MODEM_LORA, rxConfig->Bandwidth, phyDr, 1, 0, preamble, rxConfig->WindowTimeout, false, 0, false, 0, 0, true, rxConfig->RxContinuous, 0, 0 );
 #else
-    Radio.SetRxConfig( MODEM_LORA, rxConfig->Bandwidth, phyDr, 1, 0, 8, rxConfig->WindowTimeout, false, 0, false, 0, 0, true, rxConfig->RxContinuous );
+    Radio.SetRxConfig( MODEM_LORA, rxConfig->Bandwidth, phyDr, 1, 0, 8, rxConfig->WindowTimeout, false, 0, false, 0, 0, true, rxConfig->RxContinuous, 0, 0 );
 #endif
 
     if( rxConfig->RepeaterSupport == true )
@@ -552,14 +552,14 @@ bool RegionCN470TxConfig( TxConfigParams_t* txConfig, int8_t* txPower, TimerTime
     int8_t phyDr = DataratesCN470[txConfig->Datarate];
     int8_t txPowerLimited = LimitTxPower( txConfig->TxPower, Bands[Channels[txConfig->Channel].Band].TxMaxPower, txConfig->Datarate, ChannelsMask );
     int8_t phyTxPower = 0;
-	
+
     // Calculate physical TX power
     phyTxPower = RegionCommonComputeTxPower( txPowerLimited, txConfig->MaxEirp, txConfig->AntennaGain );
 	//printf("\r\ntx Power: %d freq: %d\r\n",txPowerLimited,Channels[txConfig->Channel].Frequency);
     // Setup the radio frequency
     Radio.SetChannel( Channels[txConfig->Channel].Frequency );
 
-    Radio.SetTxConfig( MODEM_LORA, phyTxPower, 0, 0, phyDr, 1, 16, false, true, 0, 0, false, 4000 );
+    Radio.SetTxConfig( MODEM_LORA, phyTxPower, 0, 0, phyDr, 1, 16, false, true, 0, 0, false, 4000, 0, 0 );
     FREQ_PRINTF("TX on freq %u Hz at DR %d power %d\r\n", (unsigned int)Channels[txConfig->Channel].Frequency, txConfig->Datarate,phyTxPower);
 
     // Setup maximum payload lenght of the radio driver
