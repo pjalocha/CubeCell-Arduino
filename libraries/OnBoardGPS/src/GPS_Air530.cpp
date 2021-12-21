@@ -26,11 +26,11 @@ void Air530Class::begin(uint32_t baud)
 
 	int i = 0;
 	//String cmd="$PGKC147,"+(String)baud;
-	
+
 	String cmd="$PGKC149,0,"+(String)baud;
 
 	cmd = calchecksum(cmd);
-	
+
 	GPSSerial.begin(bauds[i]);
 	String temp = "";
 
@@ -57,7 +57,7 @@ void Air530Class::begin(uint32_t baud)
 	GPSSerial.flush();
 
 	Serial.println("GPS baudrate updating... ");
-	
+
 	while(getNMEA() =="0")
 	{
 		GPSSerial.updateBaudRate(bauds[i]);

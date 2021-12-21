@@ -193,7 +193,8 @@ struct Radio_s
                               uint16_t symbTimeout, bool fixLen,
                               uint8_t payloadLen,
                               bool crcOn, bool freqHopOn, uint8_t hopPeriod,
-                              bool iqInverted, bool rxContinuous );
+                              bool iqInverted, bool rxContinuous,
+                              uint8_t syncLen, uint8_t *syncSeq );
     /*!
      * \brief Sets the transmission parameters
      *
@@ -233,7 +234,8 @@ struct Radio_s
                               uint32_t bandwidth, uint32_t datarate,
                               uint8_t coderate, uint16_t preambleLen,
                               bool fixLen, bool crcOn, bool freqHopOn,
-                              uint8_t hopPeriod, bool iqInverted, uint32_t timeout );
+                              uint8_t hopPeriod, bool iqInverted, uint32_t timeout,
+                              uint8_t syncLen, uint8_t *syncSeq );
     /*!
      * \brief Checks if the given RF frequency is supported by the hardware
      *
@@ -326,9 +328,9 @@ struct Radio_s
      * \brief Set synchro word in radio
      *
      * \param [IN] data  THe syncword
-     */		
-		void    ( *SetSyncWord )( uint8_t data );
-    
+     */	
+    void    ( *SetSyncWord )( uint8_t data );
+
 	/*!
      * \brief Sets the maximum payload length.
      *
